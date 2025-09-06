@@ -1,0 +1,54 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Setup Bun
+      run: npm install -g bun
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # 装 Rust + wasm-pack
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Install wasm-pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+    # 构建 WASM 并复制到前端
+    - name: Build WASM
+      working-directory: rust-wasm
+      run: |
+        wasm-pack build --target web
+        rm -rf ../wasm-re-ui/src/wasm
+        cp -r pkg ../wasm-re-ui/src/wasm
+
+    - name: Install Frontend Project Dependencies
+      working-directory: wasm-re-ui
+      run: |
+        bun install
+
+    - name: Build Frontend Project
+      working-directory: wasm-re-ui
+      run: |
+        bun run build
+      env:
+        VITE_DEPLOY_TARGET: 'github-pages'
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./wasm-re-ui/dist # ← 产物在子目录里
+        commit_message: "Deploy wasm-re-hw - ${{ github.event.head_commit.message }}"
