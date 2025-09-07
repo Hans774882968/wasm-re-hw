@@ -43,3 +43,4 @@ cargo add wasm_bindgen base64
 ## 参考资料
 
 1. 参考我之前博客《【常规】部署到 GitHub Pages》一节：https://www.52pojie.cn/thread-2048343-1-1.html
+
