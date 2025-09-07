@@ -1,8 +1,7 @@
 use base64::prelude::*;
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-pub fn string_xor(bytes: &[u8]) -> Vec<u8> {
+fn string_xor(bytes: &[u8]) -> Vec<u8> {
     let s_box = b"hctf";
     let encrypted = bytes
         .iter()
@@ -23,10 +22,12 @@ pub fn encrypt_username(name: &str) -> String {
 }
 
 #[wasm_bindgen]
-pub fn decrypt_to_username(encrypted: &str) -> String {
-    let name_bytes = BASE64_STANDARD.decode(encrypted).unwrap();
+pub fn decrypt_to_username(encrypted: &str) -> Result<String, String> {
+    let name_bytes = BASE64_STANDARD
+        .decode(encrypted)
+        .map_err(|e| format!("[rust-wasm] Invalid Base64: {}", e))?;
     let decrypted = string_xor(&name_bytes);
-    String::from_utf8(decrypted).unwrap()
+    String::from_utf8(decrypted).map_err(|e| format!("[rust-wasm] Invalid UTF-8: {}", e))
 }
 
 #[cfg(test)]
@@ -70,30 +71,53 @@ mod tests {
     }
 
     #[test]
-    fn decrypt_to_username_basic_test() {
-        let result1 = decrypt_to_username("AAIaFV8=");
+    fn decrypt_to_username_basic_test() -> Result<(), String> {
+        let result1 = decrypt_to_username("AAIaFV8=")?;
         assert_eq!(result1, "hans7");
-        let result2 = decrypt_to_username("ICI6NQ==");
+        let result2 = decrypt_to_username("ICI6NQ==")?;
         assert_eq!(result2, "HANS");
-        let result3 = decrypt_to_username("j+vFgOPfku/lh8j8gNbW");
+        let result3 = decrypt_to_username("j+vFgOPfku/lh8j8gNbW")?;
         assert_eq!(result3, "爱拼才会赢");
-        let result4 = decrypt_to_username("KQAZOSRTAgMa");
+        let result4 = decrypt_to_username("KQAZOSRTAgMa")?;
         assert_eq!(result4, "Acm_L0ver");
-        let result5 = decrypt_to_username("AAAAAA==");
+        let result5 = decrypt_to_username("AAAAAA==")?;
         assert_eq!(result5, "hctf");
-        let result6 = decrypt_to_username("jv/9gcHZVIDI3w==");
+        let result6 = decrypt_to_username("jv/9gcHZVIDI3w==")?;
         assert_eq!(result6, "有空 格");
+
+        Ok(())
     }
 
     #[test]
-    fn decrypt_to_username_empty_input_test() {
-        let result = decrypt_to_username("");
+    fn decrypt_to_username_empty_input_test() -> Result<(), String> {
+        let result = decrypt_to_username("")?;
         assert_eq!(result, "");
+
+        Ok(())
     }
 
     #[test]
-    fn decrypt_to_username_equal_to_box_test() {
-        let result = decrypt_to_username("AAAAAA==");
+    fn decrypt_to_username_equal_to_box_test() -> Result<(), String> {
+        let result = decrypt_to_username("AAAAAA==")?;
         assert_eq!(result, "hctf");
+
+        Ok(())
+    }
+
+    #[test]
+    fn decrypt_to_username_invalid_base64_test() {
+        let result = decrypt_to_username("AAAAAAA==invalid");
+        assert!(result.is_err());
+        let err = result.err().unwrap();
+        assert!(err.contains("[rust-wasm] Invalid Base64"));
+    }
+
+    #[test]
+    fn decrypt_to_username_invalid_utf8_test() {
+        let corrupted = BASE64_STANDARD.encode(&[0xFF, 0xFF, 0xFF]);
+        let result = decrypt_to_username(&corrupted);
+        assert!(result.is_err());
+        let err = result.err().unwrap();
+        assert!(err.contains("[rust-wasm] Invalid UTF-8"));
     }
 }

@@ -32,6 +32,34 @@ cargo new --lib rust-wasm
 cargo add wasm_bindgen base64
 ```
 
+## rust WASM开发
+
+`unwrap()`在 WASM 中的危害：
+
+1. 在 WASM 环境中，panic 会终止整个 WebAssembly 实例，导致页面崩溃
+2. JavaScript 无法捕获 Rust 的 panic（除非特殊配置），用户看到的是白屏或错误提示
+3. 错误信息 `InvalidByte(7, 61)` 表明 Base64 解码失败（`=` 是 Base64 填充字符，但位置错误）
+
+## rust WASM单测
+
+https://github.com/drager/wasm-pack/blob/master/tests/all/download.rs
+
+```rs
+fn downloading_prebuilt_wasm_bindgen_handles_http_errors() {
+    let dir = tempfile::TempDir::new().unwrap();
+    let bad_version = "0.2.95-some-trailing-version-stuff-that-does-not-exist";
+    let cache = binary_install::Cache::at(dir.path());
+    let result = install::download_prebuilt(&Tool::WasmBindgen, &cache, bad_version, true);
+    assert!(result.is_err());
+    let error = result.err().unwrap();
+
+    assert!(error.chain().any(|e| e.to_string().contains("404")));
+    assert!(error.chain().any(|e| e.to_string().contains(bad_version)));
+}
+```
+
+盲猜这么写单测也凑合。
+
 ## 部署到GitHub Pages
 
 我是直接参考我之前[博客的《【常规】部署到 GitHub Pages》](https://www.52pojie.cn/thread-2048343-1-1.html)一节来操作的。这次编写workflow（[完整代码传送门](https://github.com/Hans774882968/wasm-re-hw/blob/main/.github/workflows/main.yml)）学到的新知识：
