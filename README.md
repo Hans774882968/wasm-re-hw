@@ -60,6 +60,31 @@ fn downloading_prebuilt_wasm_bindgen_handles_http_errors() {
 
 盲猜这么写单测也凑合。
 
+## 实现AES加密和解密
+
+安装依赖：
+
+```bash
+cargo add aes cbc thiserror anyhow
+```
+
+### 关于`cipher`变量的疑问
+
+kimi生成了这样的代码：
+
+```rust
+if !matches!(key.len(), 16 | 24 | 32) {
+    return Err(AesError::BadKeyLen(key.len()));
+}
+// ...
+let cipher = match key.len() {
+    16 => Aes128CbcDec::new_from_slices(key, iv).map_err(|_| AesError::BadKeyLen(key.len()))?,
+    _ => unreachable!("key len already checked"),
+};
+```
+
+我问它：明明已经判断过`key`的长度，为什么要这么写。它说假如这个方法实现AES-192和AES-256，这样写比较符合开闭原则。但我个人会直接实现不同的方法来做192和256，所以果断把这段代码简化了。
+
 ## 部署到GitHub Pages
 
 我是直接参考我之前[博客的《【常规】部署到 GitHub Pages》](https://www.52pojie.cn/thread-2048343-1-1.html)一节来操作的。这次编写workflow（[完整代码传送门](https://github.com/Hans774882968/wasm-re-hw/blob/main/.github/workflows/main.yml)）学到的新知识：

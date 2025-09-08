@@ -1,5 +1,6 @@
 import { Toaster } from 'sonner';
-import RustWasmEncryptDemo from './rustWasmEncryptDemo/RustWasmEncryptDemo';
+import AesCbcDemo from './rustWasmEncryptDemos/AesCbcDemo';
+import RustWasmEncryptDemo from './rustWasmEncryptDemos/RustWasmEncryptDemo';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         }}
       />
       <RustWasmEncryptDemo />
+      <AesCbcDemo />
     </>
   );
 }

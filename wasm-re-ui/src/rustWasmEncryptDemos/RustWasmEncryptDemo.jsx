@@ -11,6 +11,9 @@ export default function RustWasmEncryptDemo() {
   const [decOutput, setDecOutput] = useState('');
   const [ready, setReady] = useState(false);
 
+  const shouldDisableEncBtn = !encInput.trim() || !ready;
+  const shouldDisableDecBtn = !decInput.trim() || !ready;
+
   (async () => {
     if (!ready) {
       await init();
@@ -38,7 +41,7 @@ export default function RustWasmEncryptDemo() {
 
   return (
     <div className="bg-gray-900 text-white grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-      <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Rust WASM加密示例</h2>
 
         <label className="block mb-2 text-sm">用户名</label>
@@ -51,7 +54,7 @@ export default function RustWasmEncryptDemo() {
 
         <button
           onClick={handleEncrypt}
-          disabled={!ready}
+          disabled={shouldDisableEncBtn}
           className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 px-4 py-2 rounded transition"
         >
           <FaLock /> 加密
@@ -59,7 +62,7 @@ export default function RustWasmEncryptDemo() {
 
         {encOutput && (
           <div className="mt-6">
-            <label className="block mb-2 text-sm">密文</label>
+            <label className="block mb-2 text-sm">密文（Base64）</label>
             <div className="bg-gray-900 px-3 py-2 rounded break-all text-green-400 font-mono">
               {encOutput}
             </div>
@@ -67,20 +70,20 @@ export default function RustWasmEncryptDemo() {
         )}
       </div>
 
-      <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">解密</h2>
 
-        <label className="block mb-2 text-sm">密文</label>
+        <label className="block mb-2 text-sm">密文（Base64）</label>
         <input
           className="w-full px-3 py-2 rounded bg-gray-700 text-white mb-4"
           value={decInput}
           onChange={(e) => setDecInput(e.target.value)}
-          placeholder="请输入"
+          placeholder="请输入 Base64 密文"
         />
 
         <button
           onClick={handleDecrypt}
-          disabled={!ready}
+          disabled={shouldDisableDecBtn}
           className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 px-4 py-2 rounded transition"
         >
           <FaLockOpen /> 解密
