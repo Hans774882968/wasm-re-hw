@@ -29,8 +29,8 @@ export default function Breadcrumbs() {
 
         // 将路径转换为更友好的名称
         let displayName = segment;
-        if (segment === 'xor-encrypt') displayName = '异或加密';
-        if (segment === 'aes-cbc') displayName = 'AES-CBC 加密';
+        if (segment === 'xor-encrypt') displayName = 'Rust 异或加密';
+        if (segment === 'aes-cbc') displayName = 'Rust AES-CBC 加密';
 
         return (
           <div key={segment} className="flex items-center space-x-1">

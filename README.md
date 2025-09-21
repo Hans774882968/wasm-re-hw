@@ -85,6 +85,25 @@ let cipher = match key.len() {
 
 我问它：明明已经判断过`key`的长度，为什么要这么写。它说假如这个方法实现AES-192和AES-256，这样写比较符合开闭原则。但我个人会直接实现不同的方法来做192和256，所以果断把这段代码简化了。
 
+## 前端建设相关
+
+### 如何引入开源字体
+
+我们使用的shadcn样式风格是`quantum rose`，它对应的字体都是开源的，可以直接通过fontsource安装：
+
+```bash
+bun add @fontsource/poppins @fontsource/playfair-display @fontsource/space-mono @fontsource/quicksand
+```
+
+然后可以在`wasm-re-ui\src\main.jsx`（或其他React组件，表示按需引入）或`wasm-re-ui\src\index.css`全局引入。这里我选择了后者：
+
+```css
+@import "@fontsource/poppins";
+@import "@fontsource/playfair-display";
+@import "@fontsource/space-mono";
+@import "@fontsource/quicksand";
+```
+
 ## 部署到GitHub Pages
 
 我是直接参考我之前[博客的《【常规】部署到 GitHub Pages》](https://www.52pojie.cn/thread-2048343-1-1.html)一节来操作的。这次编写workflow（[完整代码传送门](https://github.com/Hans774882968/wasm-re-hw/blob/main/.github/workflows/main.yml)）学到的新知识：

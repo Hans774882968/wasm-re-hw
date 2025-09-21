@@ -10,12 +10,11 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">WASM 加密演示平台</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             探索使用 WebAssembly 实现的各种加密算法，包括异或加密和 AES-CBC 加密。
-            本平台展示了 Rust 编译为 WASM 后在前端的应用。
+            本平台目前展示了 Rust 编译为 WASM 后在前端的应用。
           </p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-          {/* 异或加密卡片 */}
           <div className={cn(
             'bg-card rounded-xl shadow-lg border border-border overflow-hidden',
             'transition-all duration-300 hover:shadow-xl hover:scale-[1.02]'
@@ -52,7 +51,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* AES-CBC 加密卡片 */}
           <div className={cn(
             'bg-card rounded-xl shadow-lg border border-border overflow-hidden',
             'transition-all duration-300 hover:shadow-xl hover:scale-[1.02]'
@@ -62,7 +60,7 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Shield className="text-primary h-5 w-5" />
                 </div>
-                <h2 className="text-xl font-bold">AES-CBC 加密</h2>
+                <h2 className="text-xl font-bold">Rust AES-CBC 加密</h2>
               </div>
 
               <p className="text-muted-foreground mb-6">
@@ -91,7 +89,7 @@ export default function Home() {
         </div>
 
         {/* 未来计划部分 */}
-        <div className="mt-16 mb-8">
+        <div className="mt-16">
           <h2 className="text-2xl font-bold mb-6 text-center">未来计划</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-card p-6 rounded-lg border border-border">

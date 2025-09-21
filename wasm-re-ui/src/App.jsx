@@ -1,10 +1,16 @@
 import { Toaster } from 'sonner';
 import AesCbcDemo from './rustWasmEncryptDemos/AesCbcDemo';
 import RustWasmEncryptDemo from './rustWasmEncryptDemos/RustWasmEncryptDemo';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Breadcrumbs from './components/BreadCrumbs';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from 'react-router-dom';
 import Home from './pages/Home';
 import { getWebsiteBasePath } from './lib/routeUtils';
+import NavigateForGitHubPages from './NavigateForGitHubPages';
+import NotFound from './pages/NotFound';
+import Layout from './components/layout/Layout';
 
 const basePath = getWebsiteBasePath();
 
@@ -14,19 +20,27 @@ export default function App() {
       <Toaster
         position='top-center'
         toastOptions={{
+          style: {
+            color: 'var(--foreground)',
+            background: 'var(--background)',
+            borderColor: 'var(--border)',
+          },
           classNames: {
             title: '!font-bold !text-base',
           },
         }}
       />
-      <div className="min-h-screen bg-background text-foreground">
-        <Breadcrumbs />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/xor-encrypt" element={<RustWasmEncryptDemo />} />
-          <Route path="/aes-cbc" element={<AesCbcDemo />} />
-        </Routes>
-      </div>
+      <NavigateForGitHubPages>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/xor-encrypt" element={<RustWasmEncryptDemo />} />
+            <Route path="/aes-cbc" element={<AesCbcDemo />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </NavigateForGitHubPages>
     </Router>
   );
 }

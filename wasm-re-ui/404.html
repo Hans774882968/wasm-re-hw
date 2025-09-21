@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <link
+    rel="shortcut icon"
+    href="/favicon.ico"
+    type="image/x-icon"
+  >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <title>页面重定向中 - WASM 加密演示平台</title>
+  <style>
+    :root {
+      --background: oklch(0.9692 0.0192 343.9344);
+      --foreground: oklch(0.4426 0.1653 352.3762);
+      --card: oklch(0.9837 0.0107 339.3288);
+      --card-foreground: oklch(0.4426 0.1653 352.3762);
+      --popover: oklch(0.9837 0.0107 339.3288);
+      --popover-foreground: oklch(0.4426 0.1653 352.3762);
+      --primary: oklch(0.6002 0.2414 0.1348);
+      --primary-foreground: oklch(1.0000 0 0);
+      --secondary: oklch(0.9230 0.0701 326.1273);
+      --secondary-foreground: oklch(0.4426 0.1653 352.3762);
+      --muted: oklch(0.9429 0.0363 344.2604);
+      --muted-foreground: oklch(0.5740 0.1732 352.0544);
+      --accent: oklch(0.8766 0.0828 344.8849);
+      --accent-foreground: oklch(0.4426 0.1653 352.3762);
+      --destructive: oklch(0.5831 0.1911 6.3410);
+      --destructive-foreground: oklch(1.0000 0 0);
+      --border: oklch(0.8881 0.0747 344.3866);
+      --input: oklch(0.9230 0.0701 326.1273);
+      --ring: oklch(0.6002 0.2414 0.1348);
+      --chart-1: oklch(0.6002 0.2414 0.1348);
+      --chart-2: oklch(0.5979 0.1750 345.0378);
+      --chart-3: oklch(0.6009 0.1243 311.7958);
+      --chart-4: oklch(0.5849 0.1178 283.2937);
+      --chart-5: oklch(0.6479 0.1871 267.9684);
+      --sidebar: oklch(0.9629 0.0227 345.7485);
+      --sidebar-foreground: oklch(0.4426 0.1653 352.3762);
+      --sidebar-primary: oklch(0.6002 0.2414 0.1348);
+      --sidebar-primary-foreground: oklch(1.0000 0 0);
+      --sidebar-accent: oklch(0.8766 0.0828 344.8849);
+      --sidebar-accent-foreground: oklch(0.4426 0.1653 352.3762);
+      --sidebar-border: oklch(0.9311 0.0448 343.3135);
+      --sidebar-ring: oklch(0.6002 0.2414 0.1348);
+      --font-sans: Poppins, sans-serif;
+      --font-serif: Playfair Display, serif;
+      --font-mono: Space Mono, monospace;
+      --radius: 0.5rem;
+      --shadow-2xs: 0px 3px 0px 0px hsl(330 70% 30% / 0.09);
+      --shadow-xs: 0px 3px 0px 0px hsl(330 70% 30% / 0.09);
+      --shadow-sm: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 1px 2px -1px hsl(330 70% 30% / 0.18);
+      --shadow: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 1px 2px -1px hsl(330 70% 30% / 0.18);
+      --shadow-md: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 2px 4px -1px hsl(330 70% 30% / 0.18);
+      --shadow-lg: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 4px 6px -1px hsl(330 70% 30% / 0.18);
+      --shadow-xl: 0px 3px 0px 0px hsl(330 70% 30% / 0.18), 0px 8px 10px -1px hsl(330 70% 30% / 0.18);
+      --shadow-2xl: 0px 3px 0px 0px hsl(330 70% 30% / 0.45);
+      --tracking-normal: 0em;
+      --spacing: 0.25rem;
+      --shadow-color: hsl(330 70% 30% / 0.12);
+      --shadow-opacity: 0.18;
+      --shadow-blur: 0px;
+      --shadow-spread: 0px;
+      --shadow-offset-x: 0px;
+      --shadow-offset-y: 3px;
+      --letter-spacing: 0em;
+
+      /* @theme inline 合并进来 */
+      --color-background: var(--background);
+      --color-foreground: var(--foreground);
+      --color-card: var(--card);
+      --color-card-foreground: var(--card-foreground);
+      --color-popover: var(--popover);
+      --color-popover-foreground: var(--popover-foreground);
+      --color-primary: var(--primary);
+      --color-primary-foreground: var(--primary-foreground);
+      --color-secondary: var(--secondary);
+      --color-secondary-foreground: var(--secondary-foreground);
+      --color-muted: var(--muted);
+      --color-muted-foreground: var(--muted-foreground);
+      --color-accent: var(--accent);
+      --color-accent-foreground: var(--accent-foreground);
+      --color-destructive: var(--destructive);
+      --color-destructive-foreground: var(--destructive-foreground);
+      --color-border: var(--border);
+      --color-input: var(--input);
+      --color-ring: var(--ring);
+      --color-chart-1: var(--chart-1);
+      --color-chart-2: var(--chart-2);
+      --color-chart-3: var(--chart-3);
+      --color-chart-4: var(--chart-4);
+      --color-chart-5: var(--chart-5);
+      --color-sidebar: var(--sidebar);
+      --color-sidebar-foreground: var(--sidebar-foreground);
+      --color-sidebar-primary: var(--sidebar-primary);
+      --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+      --color-sidebar-accent: var(--sidebar-accent);
+      --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+      --color-sidebar-border: var(--sidebar-border);
+      --color-sidebar-ring: var(--sidebar-ring);
+
+      --font-sans: Quicksand, sans-serif;
+      --font-mono: Space Mono, monospace;
+      --font-serif: Playfair Display, serif;
+
+      --radius-sm: calc(var(--radius) - 4px);
+      --radius-md: calc(var(--radius) - 2px);
+      --radius-lg: var(--radius);
+      --radius-xl: calc(var(--radius) + 4px);
+      --radius: 0.5rem;
+      --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+      --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+      --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+      --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+      --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+      --tracking-normal: var(--tracking-normal);
+      --color-shadow-color: var(--shadow-color);
+    }
+
+    .dark {
+      --background: oklch(0.1808 0.0535 313.7159);
+      --foreground: oklch(0.8624 0.1307 326.6356);
+      --card: oklch(0.2398 0.0661 313.2337);
+      --card-foreground: oklch(0.8624 0.1307 326.6356);
+      --popover: oklch(0.2398 0.0661 313.2337);
+      --popover-foreground: oklch(0.8624 0.1307 326.6356);
+      --primary: oklch(0.7543 0.2319 332.0212);
+      --primary-foreground: oklch(0.1608 0.0493 327.5673);
+      --secondary: oklch(0.3184 0.0915 319.6465);
+      --secondary-foreground: oklch(0.8624 0.1307 326.6356);
+      --muted: oklch(0.2701 0.0770 312.3525);
+      --muted-foreground: oklch(0.7116 0.1623 327.1132);
+      --accent: oklch(0.3558 0.1201 325.7655);
+      --accent-foreground: oklch(0.8624 0.1307 326.6356);
+      --destructive: oklch(0.6539 0.2441 7.1740);
+      --destructive-foreground: oklch(0.9821 0 0);
+      --border: oklch(0.3280 0.1202 313.5393);
+      --input: oklch(0.3184 0.0915 319.6465);
+      --ring: oklch(0.7543 0.2319 332.0212);
+      --chart-1: oklch(0.7543 0.2319 332.0212);
+      --chart-2: oklch(0.6508 0.2159 317.6331);
+      --chart-3: oklch(0.6249 0.2233 292.7656);
+      --chart-4: oklch(0.6067 0.1649 278.7172);
+      --chart-5: oklch(0.6235 0.2019 268.0521);
+      --sidebar: oklch(0.1941 0.0504 311.3983);
+      --sidebar-foreground: oklch(0.8624 0.1307 326.6356);
+      --sidebar-primary: oklch(0.7543 0.2319 332.0212);
+      --sidebar-primary-foreground: oklch(0.1608 0.0493 327.5673);
+      --sidebar-accent: oklch(0.3558 0.1201 325.7655);
+      --sidebar-accent-foreground: oklch(0.8624 0.1307 326.6356);
+      --sidebar-border: oklch(0.3280 0.1202 313.5393);
+      --sidebar-ring: oklch(0.7543 0.2319 332.0212);
+      --font-sans: Quicksand, sans-serif;
+      --font-serif: Playfair Display, serif;
+      --font-mono: Space Mono, monospace;
+      --radius: 0.5rem;
+      --shadow-2xs: 0px 3px 0px 0px hsl(300 80% 50% / 0.09);
+      --shadow-xs: 0px 3px 0px 0px hsl(300 80% 50% / 0.09);
+      --shadow-sm: 0px 3px 0px 0px hsl(300 80% 50% / 0.18), 0px 1px 2px -1px hsl(300 80% 50% / 0.18);
+      --shadow: 0px 3px 0px 0px hsl(300 80% 50% / 0.18), 0px 1px 2px -1px hsl(300 80% 50% / 0.18);
+      --shadow-md: 0px 3px 0px 0px hsl(300 80% 50% / 0.18), 0px 2px 4px -1px hsl(300 80% 50% / 0.18);
+      --shadow-lg: 0px 3px 0px 0px hsl(300 80% 50% / 0.18), 0px 4px 6px -1px hsl(300 80% 50% / 0.18);
+      --shadow-xl: 0px 3px 0px 0px hsl(300 80% 50% / 0.18), 0px 8px 10px -1px hsl(300 80% 50% / 0.18);
+      --shadow-2xl: 0px 3px 0px 0px hsl(300 80% 50% / 0.45);
+      --shadow-color: hsl(300 80% 50% / 0.25);
+      --shadow-opacity: 0.18;
+      --shadow-blur: 0px;
+      --shadow-spread: 0px;
+      --shadow-offset-x: 0px;
+      --shadow-offset-y: 3px;
+      --letter-spacing: 0em;
+      --spacing: 0.25rem;
+    }
+
+    * {
+      border-color: var(--border);
+      outline-color: var(--ring);
+      outline-offset: 2px;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      letter-spacing: var(--tracking-normal);
+      margin: 0;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 2rem;
+      background-color: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: var(--foreground);
+    }
+
+    .path-display {
+      background-color: var(--muted);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      margin: 1.5rem 0;
+      word-break: break-all;
+      color: var(--primary);
+    }
+
+    .redirect-button {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .redirect-button:hover {
+      opacity: 0.9;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid var(--primary-foreground);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>页面重定向中</h1>
+    <p>
+      您访问的页面
+      <span
+        id="target-path"
+        class="path-display"
+      ></span>
+      正在加载中...
+    </p>
+    <p>由于 GitHub Pages 的限制，我们需要将您重定向到我们的单页应用。</p>
+    <p>如果页面没有自动跳转，请点击下面的按钮手动跳转：</p>
+    <a
+      href="#"
+      id="redirect-link"
+      class="redirect-button"
+    >
+      <span class="spinner"></span>
+      立即跳转
+    </a>
+  </div>
+
+  <script>
+    const basePath = '/wasm-re-hw/';
+    const currentPath = window.location.pathname.replace(basePath, '');
+    const targetPathElement = document.getElementById('target-path');
+    const redirectLinkElement = document.getElementById('redirect-link');
+
+    // 显示目标路径
+    targetPathElement.textContent = currentPath || '首页';
+
+    // 设置重定向链接
+    const redirectUrl = `${basePath}?redirect=${encodeURIComponent(currentPath)}`;
+    redirectLinkElement.href = redirectUrl;
+
+    window.location.href = redirectUrl;
+  </script>
+</body>
+
+</html>
