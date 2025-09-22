@@ -104,7 +104,7 @@ export default function AesCbcDemo() {
                 className={cn(
                   'w-full flex items-center justify-center gap-2',
                   'bg-primary text-primary-foreground py-2 px-4 rounded-md',
-                  'transition-colors duration-200',
+                  'transition-colors duration-300',
                   'disabled:opacity-50 disabled:pointer-events-none',
                   'hover:bg-primary/90'
                 )}
@@ -175,7 +175,7 @@ export default function AesCbcDemo() {
                 className={cn(
                   'w-full flex items-center justify-center gap-2',
                   'bg-primary text-primary-foreground py-2 px-4 rounded-md',
-                  'transition-colors duration-200',
+                  'transition-colors duration-300',
                   'disabled:opacity-50 disabled:pointer-events-none',
                   'hover:bg-primary/90'
                 )}

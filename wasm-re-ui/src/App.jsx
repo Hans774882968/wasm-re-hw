@@ -6,11 +6,12 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 import { getWebsiteBasePath } from './lib/routeUtils';
 import NavigateForGitHubPages from './NavigateForGitHubPages';
 import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
+import ShaDemo from './rustWasmEncryptDemos/ShaDemo';
 
 const basePath = getWebsiteBasePath();
 
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/xor-encrypt" element={<RustWasmEncryptDemo />} />
             <Route path="/aes-cbc" element={<AesCbcDemo />} />
+            <Route path="/sha-demo" element={<ShaDemo />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

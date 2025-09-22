@@ -40,6 +40,12 @@ cargo add wasm_bindgen base64
 2. JavaScript 无法捕获 Rust 的 panic（除非特殊配置），用户看到的是白屏或错误提示
 3. 错误信息 `InvalidByte(7, 61)` 表明 Base64 解码失败（`=` 是 Base64 填充字符，但位置错误）
 
+编译生成WASM文件：
+
+```bash
+wasm-pack build --target web --out-dir ../wasm-re-ui/src/wasm
+```
+
 ## rust WASM单测
 
 https://github.com/drager/wasm-pack/blob/master/tests/all/download.rs

@@ -2,6 +2,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { ChevronRight, Home } from 'lucide-react';
 
+const displayNameMp = {
+  'xor-encrypt': 'Rust 异或加密',
+  'aes-cbc': 'Rust AES-CBC 加密',
+  'sha-demo': 'Rust SHA256 / 512 演示',
+};
+
 export default function Breadcrumbs() {
   const location = useLocation();
 
@@ -16,7 +22,7 @@ export default function Breadcrumbs() {
         to="/"
         className={cn(
           'flex items-center space-x-1 text-muted-foreground hover:text-foreground',
-          'transition-colors duration-200'
+          'transition-colors duration-300'
         )}
       >
         <Home className="h-4 w-4" />
@@ -28,9 +34,7 @@ export default function Breadcrumbs() {
         const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
 
         // 将路径转换为更友好的名称
-        let displayName = segment;
-        if (segment === 'xor-encrypt') displayName = 'Rust 异或加密';
-        if (segment === 'aes-cbc') displayName = 'Rust AES-CBC 加密';
+        const displayName = displayNameMp[segment] || segment;
 
         return (
           <div key={segment} className="flex items-center space-x-1">
@@ -43,7 +47,7 @@ export default function Breadcrumbs() {
                 to={path}
                 className={cn(
                   'text-muted-foreground hover:text-foreground',
-                  'transition-colors duration-200'
+                  'transition-colors duration-300'
                 )}
               >
                 {displayName}

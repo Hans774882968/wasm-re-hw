@@ -44,7 +44,7 @@ export default function RustWasmEncryptDemo() {
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">异或加密演示</h1>
+          <h1 className="text-3xl font-bold mb-2">Rust WASM 异或加密演示</h1>
           <p className="text-muted-foreground">
             使用 Rust 编译的 WASM 模块实现简单的异或加密算法
           </p>
@@ -76,7 +76,7 @@ export default function RustWasmEncryptDemo() {
                 className={cn(
                   'w-full flex items-center justify-center gap-2',
                   'bg-primary text-primary-foreground py-2 px-4 rounded-md',
-                  'transition-colors duration-200',
+                  'transition-colors duration-300',
                   'disabled:opacity-50 disabled:pointer-events-none',
                   'hover:bg-primary/90'
                 )}
@@ -123,7 +123,7 @@ export default function RustWasmEncryptDemo() {
                 className={cn(
                   'w-full flex items-center justify-center gap-2',
                   'bg-primary text-primary-foreground py-2 px-4 rounded-md',
-                  'transition-colors duration-200',
+                  'transition-colors duration-300',
                   'disabled:opacity-50 disabled:pointer-events-none',
                   'hover:bg-primary/90'
                 )}
