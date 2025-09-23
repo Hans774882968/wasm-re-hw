@@ -3,9 +3,10 @@ import { cn } from '@/lib/utils';
 import { ChevronRight, Home } from 'lucide-react';
 
 const displayNameMp = {
-  'xor-encrypt': 'Rust 异或加密',
+  'xor-encrypt': 'Rust WASM 异或加密',
   'aes-cbc': 'Rust AES-CBC 加密',
   'sha-demo': 'Rust SHA256 / 512 演示',
+  'file-sha-hash-demo': 'Rust 文件 SHA 哈希演示',
 };
 
 export default function Breadcrumbs() {

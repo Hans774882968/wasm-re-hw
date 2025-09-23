@@ -203,3 +203,12 @@ body {
     letter-spacing: var(--tracking-normal);
   }
 }
+
+*::-webkit-scrollbar {
+  @apply flex touch-none p-px transition-colors select-none h-full w-1.5 border-l border-l-transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply relative flex-1 rounded-full;
+  background-color: var(--primary);
+}

@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 import { FaCopy, FaHashtag, FaLock, FaShieldAlt } from 'react-icons/fa';
 import { cn, copyToClipboard } from '@/lib/utils';
 import init, {
@@ -13,7 +20,6 @@ import init, {
   get_str_sha512_pure,
   get_str_sha512_with_salt,
 } from '@/wasm/rust_wasm';
-import { Separator } from '@/components/ui/separator';
 
 // 哈希配置数据 —— DRY 抽象，避免重复代码
 const shaHashConfigs = {
@@ -113,10 +119,10 @@ export default function ShaDemo() {
           <span className="text-sm whitespace-nowrap">{config.label}</span>
         </div>
         <div className="flex-1 relative min-w-0">
-          <Input
+          <Textarea
             readOnly
             value={value}
-            className="pr-10 font-mono text-xs w-full"
+            className="pr-8 font-mono text-xs w-full"
           />
           <Button
             size="icon"
@@ -135,7 +141,7 @@ export default function ShaDemo() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-2">题目</h1>
           <p className="text-muted-foreground">
             找到“SHA256+默认盐”和“SHA512+默认盐”中默认盐的值

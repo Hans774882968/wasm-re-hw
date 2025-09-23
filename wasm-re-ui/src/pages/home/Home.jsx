@@ -1,5 +1,7 @@
 import { Shield, Code, Key, HashIcon } from 'lucide-react';
 import { IntroCard } from './IntroCard';
+import FuturePlanCard from './FuturePlanCard';
+import { FaFile } from 'react-icons/fa';
 
 export default function Home() {
   return (
@@ -8,7 +10,7 @@ export default function Home() {
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">WASM 加密演示平台</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            探索使用 WebAssembly 实现的各种加密算法，包括异或加密和 AES-CBC 加密。
+            探索使用 WebAssembly 实现的各种加密算法，包括异或加密、 AES-CBC 加密、 SHA 哈希等。
             本平台目前展示了 Rust 编译为 WASM 后在前端的应用。
           </p>
         </header>
@@ -16,7 +18,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
           <IntroCard
             icon={<Key className="text-primary h-5 w-5" />}
-            title="Rust 异或加密"
+            title="Rust WASM 异或加密"
             description="使用 Rust 编译的 WASM 模块实现简单的异或加密算法。这种加密方式适合用于简单的数据混淆，但不适合高安全性场景。"
             tags={['Rust', 'WASM', '异或加密']}
             to="/xor-encrypt"
@@ -38,39 +40,62 @@ export default function Home() {
             problemTags={['逆向题', '简单']}
             to="/sha-demo"
           />
+
+          <IntroCard
+            icon={<FaFile className="text-primary h-5 w-5" />}
+            title="Rust 文件 SHA 哈希演示"
+            description="《Rust SHA256 / 512 演示》的扩展。支持任意文件（文本/二进制）的 SHA256 / 512 哈希计算。适用于文件完整性校验、数字取证等场景。"
+            tags={['Rust', 'WASM', '文件哈希', 'SHA256', 'SHA512', '加盐哈希']}
+            problemTags={['逆向题', '简单']}
+            to="/file-sha-hash-demo"
+          />
         </div>
 
         {/* 未来计划部分 */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold mb-6 text-center">未来计划</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-card p-6 rounded-lg border border-border">
-              <div className="flex items-center gap-2 mb-3">
-                <Code className="h-5 w-5 text-primary" />
-                <h3 className="font-bold">SHA-256 哈希</h3>
-              </div>
-              <p className="text-muted-foreground text-sm">
-                使用 Rust 实现 SHA-256 哈希算法，生成字符串摘要。
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-lg border border-border">
-              <div className="flex items-center gap-2 mb-3">
-                <Code className="h-5 w-5 text-primary" />
-                <h3 className="font-bold">多语言 WASM</h3>
-              </div>
-              <p className="text-muted-foreground text-sm">
-                引入 Go、C++、Python 等语言编译的 WASM 模块。
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-lg border border-border">
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="h-5 w-5 text-primary" />
-                <h3 className="font-bold">前端逆向靶场</h3>
-              </div>
-              <p className="text-muted-foreground text-sm">
-                模拟付费软件验证，提供前端逆向练习环境。
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <FuturePlanCard
+              icon={<HashIcon className="h-5 w-5 text-primary" />}
+              title="SHA 哈希"
+              description="使用 Rust、Go、C++、Python 等语言实现 SHA-256 / 512 哈希算法。"
+            />
+
+            <FuturePlanCard
+              icon={<Code className="h-5 w-5 text-primary" />}
+              title="多语言 WASM"
+              description="引入 Rust、Go、C++、Python 等语言编译的 WASM 模块。"
+            />
+
+            <FuturePlanCard
+              icon={<Shield className="h-5 w-5 text-primary" />}
+              title="前端逆向靶场"
+              description="模拟付费软件验证场景，提供专业的前端逆向练习环境。"
+            />
+
+            <FuturePlanCard
+              icon={<Shield className="h-5 w-5 text-primary" />}
+              title="可插拔加密流程"
+              description="利用 WASM 实现多语言串联的加密流程，并提供后台管理页面方便地让加密流程具备可插拔性。"
+            />
+
+            <FuturePlanCard
+              icon={<Shield className="h-5 w-5 text-primary" />}
+              title="复现 HCTF 加密文件流程"
+              description={
+                <>
+                  这个灵感来自于作者的个人项目
+                  <a
+                    href="https://github.com/Hans774882968/file-encrypt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    file-encrypt
+                  </a>
+                  ，宣传一下~
+                </>
+              }
+            />
           </div>
         </div>
       </div>

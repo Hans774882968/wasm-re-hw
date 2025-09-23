@@ -47,8 +47,8 @@ export default function AesCbcDemo() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Rust AES-CBC 加密演示</h1>
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold mb-2">Rust AES-CBC 加密</h1>
           <p className="text-muted-foreground">
             使用 Rust 编译的 WASM 模块实现 AES-CBC 加密算法
           </p>

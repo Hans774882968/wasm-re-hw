@@ -12,6 +12,7 @@ import NavigateForGitHubPages from './NavigateForGitHubPages';
 import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
 import ShaDemo from './rustWasmEncryptDemos/ShaDemo';
+import FileShaDemo from './rustWasmEncryptDemos/FileShaDemo';
 
 const basePath = getWebsiteBasePath();
 
@@ -28,6 +29,7 @@ export default function App() {
           },
           classNames: {
             title: '!font-bold !text-base',
+            description: '!text-foreground',
           },
         }}
       />
@@ -38,6 +40,7 @@ export default function App() {
             <Route path="/xor-encrypt" element={<RustWasmEncryptDemo />} />
             <Route path="/aes-cbc" element={<AesCbcDemo />} />
             <Route path="/sha-demo" element={<ShaDemo />} />
+            <Route path="/file-sha-hash-demo" element={<FileShaDemo />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
