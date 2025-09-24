@@ -110,6 +110,104 @@ bun add @fontsource/poppins @fontsource/playfair-display @fontsource/space-mono 
 @import "@fontsource/quicksand";
 ```
 
+### 用Web Worker解决文件哈希过程中的卡顿问题
+
+实测发现，我在[Rust 文件 SHA 哈希演示](https://hans774882968.github.io/wasm-re-hw/file-sha-hash-demo)这个页面执行大文件哈希时，页面会卡顿。这因为文件哈希计算调用的WASM是在主线程中执行的。经过一番调研，我决定引入Web Worker来解决。实测发现，引入Web Worker后，页面确实完全不卡了。
+
+[`wasm-re-ui\src\rustWasmEncryptDemos\fileShaWorker.worker.js`](https://github.com/Hans774882968/wasm-re-hw/blob/main/wasm-re-ui/src/rustWasmEncryptDemos/fileShaWorker.worker.js)：
+
+```js
+/**
+ * 这里能直接用 ESM 是因为我们：在 vite.config.js 里
+ * 1. 配置了 worker: { format: 'es' }
+ * 2. `new Worker`时传入了`type: 'module'`：
+ * const fileShaWorker = new Worker(new URL('./fileShaWorker.worker.js', import.meta.url), { type: 'module' });
+ */
+import init, {
+  get_bytes_sha256,
+  get_bytes_sha256_pure,
+  get_bytes_sha256_with_salt,
+  get_bytes_sha512,
+  get_bytes_sha512_pure,
+  get_bytes_sha512_with_salt,
+} from '@/wasm/rust_wasm';
+
+let wasmInitialized = false;
+
+async function initRustWasm() {
+  if (wasmInitialized) {
+    return;
+  }
+  try {
+    await init();
+    wasmInitialized = true;
+  } catch (err) {
+    console.error('Rust WASM 初始化失败', err);
+  }
+}
+
+self.onmessage = async function (e) {
+  const { id, type, data, salt } = e.data;
+
+  try {
+    await initRustWasm();
+
+    let result;
+
+    if (type === 'sha256-pure') {
+      result = get_bytes_sha256_pure(data);
+    } else if (type === 'sha512-pure') {
+      result = get_bytes_sha512_pure(data);
+    } else if (type === 'sha256-default-salt') {
+      result = get_bytes_sha256(data);
+    } else if (type === 'sha512-default-salt') {
+      result = get_bytes_sha512(data);
+    } else if (type === 'sha256-salt') {
+      result = get_bytes_sha256_with_salt(data, salt);
+    } else if (type === 'sha512-salt') {
+      result = get_bytes_sha512_with_salt(data, salt);
+    } else {
+      throw new Error(`Unknown hash type: ${type}`);
+    }
+
+    self.postMessage({
+      id,
+      type,
+      result,
+      status: 'success',
+    });
+  } catch (err) {
+    self.postMessage({
+      id,
+      type,
+      error: err.message || '计算失败',
+      status: 'error',
+    });
+  }
+};
+```
+
+`wasm-re-ui\src\rustWasmEncryptDemos\FileShaDemo.jsx`：
+
+1. 延迟到点击计算按钮，调用`handleFileShaHash`时再`new Worker`+初始化WASM
+2. `new Worker`时记得传入`type: 'module'`，并在`vite.config.js`里新增配置：`worker: {format: 'es'}`
+3. 直接把`fileShaWorker.onmessage = (e) => {}`写进`handleFileShaHash`里是OK的，但是这里会遇到一个闭包问题：这个`onmessage`捕捉的所有state都是初始值。但我又希望拿到最新的state值。为此，我们不得不在一个setState中拿。相关代码如下：
+
+```js
+setCompletedCount((prevCount) => {
+  const newCount = prevCount + 1;
+  if (newCount === totalShaMethodTypes) {
+    toast.success('SHA 哈希计算完成', {
+      description: `${file.name} 计算完成`,
+    });
+    setIsProcessing(false);
+  }
+  return newCount;
+});
+```
+
+这样写很糟糕，但也能跑，暂时这样吧。这里的`completedCount`变量是用来优化用户体验的，在输入大文件时，用户可以在界面看到算好的哈希数目。
+
 ## 部署到GitHub Pages
 
 我是直接参考我之前[博客的《【常规】部署到 GitHub Pages》](https://www.52pojie.cn/thread-2048343-1-1.html)一节来操作的。这次编写workflow（[完整代码传送门](https://github.com/Hans774882968/wasm-re-hw/blob/main/.github/workflows/main.yml)）学到的新知识：

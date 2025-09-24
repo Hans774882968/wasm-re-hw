@@ -35,5 +35,8 @@ export default defineConfig(() => {
     server: {
       port: 5220,
     },
+    worker: {
+      format: 'es',
+    },
   };
 });

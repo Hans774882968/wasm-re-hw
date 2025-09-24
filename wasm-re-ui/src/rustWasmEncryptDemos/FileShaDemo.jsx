@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,51 +20,38 @@ import {
 } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { cn, copyToClipboard } from '@/lib/utils';
-import init, {
-  get_bytes_sha256,
-  get_bytes_sha256_pure,
-  get_bytes_sha256_with_salt,
-  get_bytes_sha512,
-  get_bytes_sha512_pure,
-  get_bytes_sha512_with_salt,
-} from '@/wasm/rust_wasm';
 import dayjs from 'dayjs';
 
 // DRY 抽象：哈希配置
 const fileShaHashConfigs = {
   'sha256-pure': {
     label: 'SHA256',
-    fn: (data) => get_bytes_sha256_pure(data),
     icon: <FaFile className="h-4 w-4" />,
   },
   'sha512-pure': {
     label: 'SHA512',
-    fn: (data) => get_bytes_sha512_pure(data),
     icon: <FaFile className="h-4 w-4" />,
   },
   'sha256-default-salt': {
     label: 'SHA256+默认盐',
-    fn: (data) => get_bytes_sha256(data),
     icon: <FaFile className="h-4 w-4" />,
   },
   'sha512-default-salt': {
     label: 'SHA512+默认盐',
-    fn: (data) => get_bytes_sha512(data),
     icon: <FaFile className="h-4 w-4" />,
   },
   'sha256-salt': {
     label: 'SHA256+自定义盐',
-    fn: (data, salt) => get_bytes_sha256_with_salt(data, salt),
     icon: <FaShieldAlt className="h-4 w-4" />,
     hasCustomSalt: true,
   },
   'sha512-salt': {
     label: 'SHA512+自定义盐',
-    fn: (data, salt) => get_bytes_sha512_with_salt(data, salt),
     icon: <FaShieldAlt className="h-4 w-4" />,
     hasCustomSalt: true,
   },
 };
+const totalShaMethodTypes = Object.keys(fileShaHashConfigs).length;
 
 function renderResultRow(type, results) {
   const config = fileShaHashConfigs[type];
@@ -102,28 +89,17 @@ export default function FileShaDemo() {
   const [file, setFile] = useState(null);
   const [customSalt, setCustomSalt] = useState('');
   const [results, setResults] = useState({});
-  const [ready, setReady] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
 
-  const shouldDisableBtn = !file || !ready || isProcessing;
+  const [isProcessing, setIsProcessing] = useState(false);
+  const calculationProcess = useRef({
+    ...Object.fromEntries(Object.keys(fileShaHashConfigs).map((key) => [key, false])),
+  });
+  const [completedCount, setCompletedCount] = useState(0);
+
+  const shouldDisableBtn = !file || isProcessing;
 
   const fileSizeText = file ? `${file.size.toLocaleString()} 字节` : '';
   const fileLastModifiedText = file ? dayjs(file.lastModified).format('YYYY-MM-DD HH:mm:ss') : '';
-
-  useEffect(() => {
-    async function initWasm() {
-      if (ready) return;
-      try {
-        await init();
-        setReady(true);
-      } catch (err) {
-        console.error('WASM 初始化失败', err);
-        toast.error('WASM 初始化失败', { description: err.message });
-      }
-    }
-
-    initWasm();
-  }, [ready]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files?.[0] || null;
@@ -134,42 +110,62 @@ export default function FileShaDemo() {
   };
 
   const handleFileShaHash = async () => {
-    if (!file || !ready) {
-      toast.warning('请先选择文件并等待初始化完成');
+    if (!file) {
+      toast.warning('请先选择文件');
       return;
     }
 
     setIsProcessing(true);
-    const newResults = {};
+    calculationProcess.current = {
+      ...Object.fromEntries(Object.keys(fileShaHashConfigs).map((key) => [key, true])),
+    };
+    setCompletedCount(0);
 
     try {
       const arrayBuffer = await file.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
 
-      for (const [key, config] of Object.entries(fileShaHashConfigs)) {
-        try {
-          let result;
-          if (config.hasCustomSalt) {
-            result = config.fn(uint8Array, customSalt);
-          } else {
-            result = config.fn(uint8Array, '');
-          }
-          newResults[key] = result;
-        } catch (err) {
-          console.error(`计算 ${key} 失败:`, err);
-          newResults[key] = '计算失败';
-        }
-      }
+      const fileShaWorker = new Worker(new URL('./fileShaWorker.worker.js', import.meta.url), {
+        type: 'module',
+      });
 
-      setResults(newResults);
-      toast.success('SHA 哈希计算完成', {
-        description: `${file.name} 计算完成`,
+      fileShaWorker.onmessage = (e) => {
+        const { type, result, error, status } = e.data;
+
+        if (status === 'success') {
+          setResults(prev => ({ ...prev, [type]: result }));
+        } else {
+          setResults(prev => ({ ...prev, [type]: `计算失败: ${error}` }));
+        }
+
+        calculationProcess.current = { ...calculationProcess.current, [type]: false };
+        // TODO: 优化成 useEffect ，现在懒得改了
+        setCompletedCount((prevCount) => {
+          const newCount = prevCount + 1;
+          if (newCount === totalShaMethodTypes) {
+            toast.success('SHA 哈希计算完成', {
+              description: `${file.name} 计算完成`,
+            });
+            setIsProcessing(false);
+          }
+          return newCount;
+        });
+      };
+
+      Object.entries(fileShaHashConfigs).forEach(([key, config]) => {
+        const payload = {
+          id: crypto.randomUUID(),
+          type: key,
+          data: uint8Array,
+          salt: config.hasCustomSalt ? customSalt : '',
+        };
+
+        fileShaWorker.postMessage(payload);
       });
     } catch (err) {
       const msg = err.message || err || '文件读取失败';
       console.error('文件读取失败:', err);
       toast.error('文件读取失败', { description: msg });
-    } finally {
       setIsProcessing(false);
     }
   };
@@ -272,7 +268,7 @@ export default function FileShaDemo() {
               <FaLock />
               {isProcessing ? (
                 <>
-                  计算中...
+                  计算中（已完成{completedCount} / {totalShaMethodTypes}）...
                   <FaSpinner className="animate-spin h-4 w-4" />
                 </>
               ) : '计算'}
