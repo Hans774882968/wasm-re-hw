@@ -54,7 +54,10 @@ export default function RustWasmEncryptDemo() {
           <div className={cn(
             'bg-card rounded-xl shadow-lg p-6 border border-border'
           )}>
-            <h2 className="text-xl font-bold mb-4">加密</h2>
+            <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
+              <FaLock />
+              加密
+            </h2>
 
             <div className="space-y-4">
               <div>
@@ -101,7 +104,10 @@ export default function RustWasmEncryptDemo() {
           <div className={cn(
             'bg-card rounded-xl shadow-lg p-6 border border-border'
           )}>
-            <h2 className="text-xl font-bold mb-4">解密</h2>
+            <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
+              <FaLockOpen />
+              解密
+            </h2>
 
             <div className="space-y-4">
               <div>

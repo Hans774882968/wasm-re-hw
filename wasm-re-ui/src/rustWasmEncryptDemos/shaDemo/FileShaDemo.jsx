@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 import { cn, copyToClipboard } from '@/lib/utils';
 import dayjs from 'dayjs';
+import AnswerCard from './AnswerCard';
 
 // DRY 抽象：哈希配置
 const fileShaHashConfigs = {
@@ -192,18 +193,11 @@ export default function FileShaDemo() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">题目</h1>
-          <p className="text-muted-foreground">
-            找到“SHA256+默认盐”和“SHA512+默认盐”中默认盐的值
-          </p>
-        </div>
-
+      <div className="max-w-6xl mx-auto space-y-8">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FaUpload className="text-primary" />
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <FaUpload />
               上传文件
             </CardTitle>
           </CardHeader>
@@ -269,7 +263,7 @@ export default function FileShaDemo() {
               {isProcessing ? (
                 <>
                   计算中（已完成{completedCount} / {totalShaMethodTypes}）...
-                  <FaSpinner className="animate-spin h-4 w-4" />
+                  <FaSpinner className="animate-spin w-4 h-4" />
                 </>
               ) : '计算'}
             </Button>
@@ -307,6 +301,8 @@ export default function FileShaDemo() {
             )}
           </CardContent>
         </Card>
+
+        <AnswerCard inPage="bytes" />
       </div>
     </div>
   );

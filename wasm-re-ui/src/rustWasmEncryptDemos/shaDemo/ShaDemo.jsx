@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +20,8 @@ import init, {
   get_str_sha512_pure,
   get_str_sha512_with_salt,
 } from '@/wasm/rust_wasm';
+import AnswerCard from './AnswerCard';
+import { toast } from 'sonner';
 
 // 哈希配置数据 —— DRY 抽象，避免重复代码
 const shaHashConfigs = {
@@ -68,16 +70,24 @@ export default function ShaDemo() {
     'sha256-salt': '',
     'sha512-salt': '',
   });
-  const [ready, setReady] = useState(false);
+  const [wasmReady, setWasmReady] = useState(false);
 
-  const shouldDisableBtn = !input.trim() || !ready;
+  const shouldDisableBtn = !input.trim() || !wasmReady;
 
-  (async () => {
-    if (!ready) {
-      await init();
-      setReady(true);
+  useEffect(() => {
+    async function initWasm() {
+      if (wasmReady) return;
+      try {
+        await init();
+        setWasmReady(true);
+      } catch (err) {
+        console.error('WASM 初始化失败', err);
+        toast.error('WASM 初始化失败', { description: err.message });
+      }
     }
-  })();
+
+    initWasm();
+  }, [wasmReady]);
 
   const handleShaHash = () => {
     if (shouldDisableBtn) return;
@@ -140,18 +150,11 @@ export default function ShaDemo() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">题目</h1>
-          <p className="text-muted-foreground">
-            找到“SHA256+默认盐”和“SHA512+默认盐”中默认盐的值
-          </p>
-        </div>
-
+      <div className="max-w-6xl mx-auto space-y-8">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FaHashtag className="text-primary" />
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <FaHashtag />
               SHA哈希演示
             </CardTitle>
           </CardHeader>
@@ -205,6 +208,8 @@ export default function ShaDemo() {
             )}
           </CardContent>
         </Card>
+
+        <AnswerCard inPage="str" />
       </div>
     </div>
   );

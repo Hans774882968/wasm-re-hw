@@ -11,8 +11,8 @@ import { getWebsiteBasePath } from './lib/routeUtils';
 import NavigateForGitHubPages from './NavigateForGitHubPages';
 import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
-import ShaDemo from './rustWasmEncryptDemos/ShaDemo';
-import FileShaDemo from './rustWasmEncryptDemos/FileShaDemo';
+import ShaDemo from './rustWasmEncryptDemos/shaDemo/ShaDemo';
+import FileShaDemo from './rustWasmEncryptDemos/shaDemo/FileShaDemo';
 
 const basePath = getWebsiteBasePath();
 

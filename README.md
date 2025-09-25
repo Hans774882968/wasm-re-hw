@@ -114,7 +114,7 @@ bun add @fontsource/poppins @fontsource/playfair-display @fontsource/space-mono 
 
 实测发现，我在[Rust 文件 SHA 哈希演示](https://hans774882968.github.io/wasm-re-hw/file-sha-hash-demo)这个页面执行大文件哈希时，页面会卡顿。这因为文件哈希计算调用的WASM是在主线程中执行的。经过一番调研，我决定引入Web Worker来解决。实测发现，引入Web Worker后，页面确实完全不卡了。
 
-[`wasm-re-ui\src\rustWasmEncryptDemos\fileShaWorker.worker.js`](https://github.com/Hans774882968/wasm-re-hw/blob/main/wasm-re-ui/src/rustWasmEncryptDemos/fileShaWorker.worker.js)：
+新增Worker文件[`wasm-re-ui\src\rustWasmEncryptDemos\fileShaWorker.worker.js`](https://github.com/Hans774882968/wasm-re-hw/blob/main/wasm-re-ui/src/rustWasmEncryptDemos/fileShaWorker.worker.js)：
 
 ```js
 /**
@@ -187,11 +187,11 @@ self.onmessage = async function (e) {
 };
 ```
 
-`wasm-re-ui\src\rustWasmEncryptDemos\FileShaDemo.jsx`：
+然后是对原有页面`wasm-re-ui\src\rustWasmEncryptDemos\FileShaDemo.jsx`的改动：
 
-1. 延迟到点击计算按钮，调用`handleFileShaHash`时再`new Worker`+初始化WASM
+1. 我们延迟到点击计算按钮，调用`handleFileShaHash`时再`new Worker`+初始化WASM
 2. `new Worker`时记得传入`type: 'module'`，并在`vite.config.js`里新增配置：`worker: {format: 'es'}`
-3. 直接把`fileShaWorker.onmessage = (e) => {}`写进`handleFileShaHash`里是OK的，但是这里会遇到一个闭包问题：这个`onmessage`捕捉的所有state都是初始值。但我又希望拿到最新的state值。为此，我们不得不在一个setState中拿。相关代码如下：
+3. 直接把`fileShaWorker.onmessage = (e) => {}`写进`handleFileShaHash`里是OK的，但这样写的话会遇到一个闭包问题：这个`onmessage`捕捉到的所有state都是初始值。但我想要的是最新的state值。为此，我们不得不在一个setState中拿。相关代码如下：
 
 ```js
 setCompletedCount((prevCount) => {
@@ -206,7 +206,35 @@ setCompletedCount((prevCount) => {
 });
 ```
 
-这样写很糟糕，但也能跑，暂时这样吧。这里的`completedCount`变量是用来优化用户体验的，在输入大文件时，用户可以在界面看到算好的哈希数目。
+这样写很糟糕，但代码也能跑，暂时先这样吧。这里的`completedCount`变量是用来优化用户体验的，在输入大文件时，用户可以在界面看到算好的哈希数目，缓解焦虑。
+
+本章节剩余部分是讲我的试错过程，不感兴趣的可跳过~这个试错过程还是有点曲折的。已知通义千问初始给出的写法不对，并且问它改，它也没能力改对。所以只能靠古法手作把每种可能性都试一遍。我个人觉得过程中最有意思的尝试是[`useWorker`](https://www.npmjs.com/package/@koale/useworker)。
+
+初次听说这个包，我就想，如果能跑通这个方案，那就不用写额外的`new Worker`了，挺优雅的。二话不说，开工！安装：`bun add @koale/useworker`。使用：[官方文档](https://useworker.js.org/docs/usage)给的例子足够清晰了。但我发现，`get_bytes_sha256_pure`等都不是纯函数，而`useWorker(fn)`要求`fn`是纯函数。
+
+```js
+export function get_bytes_sha256_pure(data) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.get_bytes_sha256_pure(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+```
+
+那我就想，能不能把它们变成纯函数？于是我尝试了：
+
+1. 把`wasm`作为参数传入
+2. 把`get_bytes_sha256_pure`等函数作为参数传入
+
+可惜Worker不支持克隆这两种类型的变量。于是这个方案彻底破产了。
 
 ## 部署到GitHub Pages
 
