@@ -6,8 +6,8 @@ import { FaFile } from 'react-icons/fa';
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-12">
+      <div className="max-w-6xl mx-auto space-y-4 md:space-y-8">
+        <header className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">WASM 加密演示平台</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             探索使用 WebAssembly 实现的各种加密算法，包括异或加密、 AES-CBC 加密、 SHA 哈希等。
@@ -15,7 +15,7 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <IntroCard
             icon={<Key className="text-primary h-5 w-5" />}
             title="Rust WASM 异或加密"
@@ -49,11 +49,20 @@ export default function Home() {
             problemTags={['逆向题', '简单']}
             to="/file-sha-hash-demo"
           />
+
+          <IntroCard
+            icon={<Key className="text-primary h-5 w-5" />}
+            title="Rust Base64 自定义码表"
+            description="使用 Rust 编译的 WASM 模块实现自定义码表的 Base64 编解码。支持固定码表与动态码表。"
+            tags={['Rust', 'WASM', 'Base64']}
+            problemTags={['逆向题', '简单']}
+            to="/base64-custom-alphabet"
+          />
         </div>
 
         {/* 未来计划部分 */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-6 text-center">未来计划</h2>
+        <div>
+          <h2 className="text-2xl font-bold mb-4 text-center">未来计划</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <FuturePlanCard
               icon={<HashIcon className="h-5 w-5 text-primary" />}

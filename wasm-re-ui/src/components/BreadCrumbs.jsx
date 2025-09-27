@@ -7,6 +7,7 @@ const displayNameMp = {
   'aes-cbc': 'Rust AES-CBC 加密',
   'sha-demo': 'Rust SHA256 / 512 演示',
   'file-sha-hash-demo': 'Rust 文件 SHA 哈希演示',
+  'base64-custom-alphabet': 'Rust Base64 自定义码表',
 };
 
 export default function Breadcrumbs() {

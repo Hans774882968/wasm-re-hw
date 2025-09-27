@@ -62,7 +62,7 @@ export function IntroCard({
             'transition-colors duration-300 hover:bg-primary/90'
           )}
         >
-          查看演示
+          查看
           <FaArrowRight className="text-xs group-hover:scale-x-150 group-hover:translate-x-0.75 transition-transform duration-600" />
         </Link>
       </div>

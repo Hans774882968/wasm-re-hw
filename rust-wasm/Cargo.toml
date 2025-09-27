@@ -2,6 +2,23 @@
 name = "rust-wasm"
 version = "0.1.0"
 edition = "2024"
+authors = ["Hans774882968 <774882968@qq.com>"]
+description = "用 Rust 实现各种加密算法，并编译为 WASM ，供前端使用"
+license = "GPL-3.0"
+repository = "https://github.com/Hans774882968/wasm-re-hw"
+homepage = "https://hans774882968.github.io/wasm-re-hw/"
+keywords = [
+  "wasm",
+  "rust",
+  "aes",
+  "sha2",
+  "base64",
+  "cbc",
+  "go",
+  "python",
+  "cpp",
+  "reverse engineering",
+]
 
 [lib]
 crate-type = ["cdylib"]

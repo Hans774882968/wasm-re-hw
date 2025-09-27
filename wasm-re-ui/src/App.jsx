@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
 import ShaDemo from './rustWasmEncryptDemos/shaDemo/ShaDemo';
 import FileShaDemo from './rustWasmEncryptDemos/shaDemo/FileShaDemo';
+import Base64CustomAlphabetDemo from './rustWasmEncryptDemos/base64CustomApb/Base64CustomAlphabetDemo';
 
 const basePath = getWebsiteBasePath();
 
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="/aes-cbc" element={<AesCbcDemo />} />
             <Route path="/sha-demo" element={<ShaDemo />} />
             <Route path="/file-sha-hash-demo" element={<FileShaDemo />} />
+            <Route path="/base64-custom-alphabet" element={<Base64CustomAlphabetDemo />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

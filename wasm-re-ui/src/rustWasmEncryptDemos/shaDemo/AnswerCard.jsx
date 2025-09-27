@@ -24,7 +24,7 @@ import init, {
 import Celebration from './Celebration';
 import correctMp3Url from '@/assets/correct.mp3';
 import wrongMp3Url from '@/assets/wrong.mp3';
-import { playAudio } from './utils';
+import { playAudio } from '@/lib/audioUtils';
 import WRAudio from '@/components/WRAudio';
 
 const pageMethodMap = {
@@ -142,7 +142,7 @@ export default function AnswerCard({
   };
 
   return (
-    <>
+    <div>
       {showCelebration && <Celebration />}
       <Card className="w-full">
         <CardHeader>
@@ -201,6 +201,6 @@ export default function AnswerCard({
       </Card>
       <WRAudio ref={correctMp3Ref} src={correctMp3Url} />
       <WRAudio ref={wrongMp3Ref} src={wrongMp3Url} />
-    </>
+    </div>
   );
 }

@@ -150,7 +150,7 @@ export default function ShaDemo() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-6xl mx-auto space-y-4 md:space-y-8">
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
