@@ -2,6 +2,7 @@ import { Shield, Code, Key, HashIcon } from 'lucide-react';
 import { IntroCard } from './IntroCard';
 import FuturePlanCard from './FuturePlanCard';
 import { FaFile } from 'react-icons/fa';
+import AnimatedCardGrid from '@/components/AnimatedCardGrid';
 
 export default function Home() {
   return (
@@ -15,7 +16,11 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AnimatedCardGrid
+          columns={{ sm: 1, md: 2 }}
+          gap="1.5rem"
+          staggerDelay={100}
+        >
           <IntroCard
             icon={<Key className="text-primary h-5 w-5" />}
             title="Rust WASM 异或加密"
@@ -58,12 +63,12 @@ export default function Home() {
             problemTags={['逆向题', '简单']}
             to="/base64-custom-alphabet"
           />
-        </div>
+        </AnimatedCardGrid>
 
         {/* 未来计划部分 */}
         <div>
           <h2 className="text-2xl font-bold mb-4 text-center">未来计划</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AnimatedCardGrid columns={{ sm: 1, md: 2, lg: 3 }} gap="1rem" staggerDelay={80}>
             <FuturePlanCard
               icon={<HashIcon className="h-5 w-5 text-primary" />}
               title="SHA 哈希"
@@ -105,7 +110,7 @@ export default function Home() {
                 </>
               }
             />
-          </div>
+          </AnimatedCardGrid>
         </div>
       </div>
     </div>

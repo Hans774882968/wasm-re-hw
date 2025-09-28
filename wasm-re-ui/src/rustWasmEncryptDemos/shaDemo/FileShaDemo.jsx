@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { cn, copyToClipboard } from '@/lib/utils';
 import dayjs from 'dayjs';
 import AnswerCard from './AnswerCard';
+import { AnimatedCard } from '@/components/AnimatedCard';
 
 // DRY 抽象：哈希配置
 const fileShaHashConfigs = {
@@ -194,7 +195,7 @@ export default function FileShaDemo() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-4 md:space-y-8">
-        <Card className="w-full">
+        <AnimatedCard theme="quantum-rose" className="w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
               <FaUpload />
@@ -300,7 +301,7 @@ export default function FileShaDemo() {
               </>
             )}
           </CardContent>
-        </Card>
+        </AnimatedCard>
 
         <AnswerCard inPage="bytes" />
       </div>

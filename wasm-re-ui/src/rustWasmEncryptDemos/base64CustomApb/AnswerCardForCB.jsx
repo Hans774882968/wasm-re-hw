@@ -20,6 +20,7 @@ import correctMp3Url from '@/assets/correct.mp3';
 import wrongMp3Url from '@/assets/wrong.mp3';
 import { playAudio } from '@/lib/audioUtils';
 import WRAudio from '@/components/WRAudio';
+import { AnimatedCard } from '@/components/AnimatedCard';
 
 async function validateBase64Alphabet(userAlphabet) {
   if (!userAlphabet) {
@@ -100,7 +101,7 @@ export default function AnswerCardForCB({ onCorrectAnswer }) {
   return (
     <div>
       {showCelebration && <Celebration />}
-      <Card className="w-full">
+      <AnimatedCard theme="quantum-rose" className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <FaQuestionCircle />
@@ -144,7 +145,7 @@ export default function AnswerCardForCB({ onCorrectAnswer }) {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </AnimatedCard>
       <WRAudio ref={correctMp3Ref} src={correctMp3Url} />
       <WRAudio ref={wrongMp3Ref} src={wrongMp3Url} />
     </div>

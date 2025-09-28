@@ -4,6 +4,7 @@ import init, { aes_cbc_encrypt, aes_cbc_decrypt } from '@/wasm/rust_wasm';
 import { toast } from 'sonner';
 import { toU8 } from './utils';
 import { cn } from '@/lib/utils';
+import { AnimatedCard } from '@/components/AnimatedCard';
 
 export default function AesCbcDemo() {
   const [ready, setReady] = useState(false);
@@ -54,7 +55,7 @@ export default function AesCbcDemo() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AnimatedCardGrid columns={{ sm: 1, md: 2 }} gap="1.5rem" staggerDelay={100}>
           <div className={cn(
             'bg-card rounded-xl shadow-lg p-6 border border-border'
           )}>
@@ -202,7 +203,7 @@ export default function AesCbcDemo() {
               )}
             </div>
           </div>
-        </div>
+        </AnimatedCardGrid>
       </div>
     </div>
   );
