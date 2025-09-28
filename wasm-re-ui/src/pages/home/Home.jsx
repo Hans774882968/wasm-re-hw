@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-4 md:space-y-8">
         <header className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">WASM 加密演示平台</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">WASM 逆向工程学习平台</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             探索使用 WebAssembly 实现的各种加密算法，包括异或加密、 AES-CBC 加密、 SHA 哈希等。
             本平台目前展示了 Rust 编译为 WASM 后在前端的应用。

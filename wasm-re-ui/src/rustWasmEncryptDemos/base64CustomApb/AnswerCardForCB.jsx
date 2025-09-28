@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { FaQuestionCircle, FaSpinner } from 'react-icons/fa';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import init, {
   encode_custom_base64,
@@ -19,7 +20,6 @@ import correctMp3Url from '@/assets/correct.mp3';
 import wrongMp3Url from '@/assets/wrong.mp3';
 import { playAudio } from '@/lib/audioUtils';
 import WRAudio from '@/components/WRAudio';
-import { toast } from 'sonner';
 
 async function validateBase64Alphabet(userAlphabet) {
   if (!userAlphabet) {

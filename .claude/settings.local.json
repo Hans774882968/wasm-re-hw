@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell:*)",
+      "Bash(bun run test:*)",
+      "Bash(bun add:*)",
+      "Bash(bun dev:*)",
+      "Bash(bun run build)",
+      "Bash(mkdir:*)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1:*)",
+      "Bash(touch:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

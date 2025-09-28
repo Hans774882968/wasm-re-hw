@@ -92,7 +92,7 @@ export default function AnswerCard({
         setWasmReady(true);
       } catch (err) {
         console.error('WASM 初始化失败', err);
-        toast.error('WASM 初始化失败', { description: err.message });
+        toast.error('WASM 初始化失败', { description: err.toString() });
       }
     }
 
@@ -112,30 +112,25 @@ export default function AnswerCard({
 
       if (correct) {
         playAudio(correctMp3Ref, correctMp3Url);
-        // 触发庆祝动画
         setShowCelebration(true);
         toast.success('恭喜你！答案正确！', {
           description: '你成功找到了默认盐值！',
-          duration: 5000,
         });
 
         if (onCorrectAnswer) {
           onCorrectAnswer();
         }
 
-        // 3秒后隐藏庆祝动画
         setTimeout(() => setShowCelebration(false), 3000);
       } else {
         playAudio(wrongMp3Ref, wrongMp3Url);
         toast.error('答案错误', {
-          description: '再接再厉！请仔细检查你的答案。',
+          description: '请再接再厉qwq',
         });
       }
     } catch (error) {
       console.error('验证过程中出错', error);
-      toast.error(`验证过程中出错：${error}`, {
-        description: '请稍后重试',
-      });
+      toast.error(`验证过程中出错：${error}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -148,7 +143,7 @@ export default function AnswerCard({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <FaQuestionCircle />
-            题目
+            逆向挑战
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
