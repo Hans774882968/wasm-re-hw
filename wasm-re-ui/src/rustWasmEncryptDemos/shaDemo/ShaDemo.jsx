@@ -22,6 +22,7 @@ import init, {
 } from '@/wasm/rust_wasm';
 import AnswerCard from './AnswerCard';
 import { toast } from 'sonner';
+import { motion } from 'motion/react';
 
 // 哈希配置数据 —— DRY 抽象，避免重复代码
 const shaHashConfigs = {
@@ -150,7 +151,19 @@ export default function ShaDemo() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-4 md:space-y-8">
+      <motion.div
+        className="max-w-6xl mx-auto space-y-4 md:space-y-8"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.2,
+            },
+          },
+        }}
+      >
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
@@ -210,7 +223,7 @@ export default function ShaDemo() {
         </Card>
 
         <AnswerCard inPage="str" />
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -4,6 +4,12 @@ import init, { encrypt_username, decrypt_to_username } from '@/wasm/rust_wasm';
 import { toast } from 'sonner';
 import { getToastErrorInfo } from './utils';
 import { cn } from '@/lib/utils';
+import { motion } from 'motion/react';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+};
 
 export default function RustWasmEncryptDemo() {
   const [encInput, setEncInput] = useState('');
@@ -50,10 +56,26 @@ export default function RustWasmEncryptDemo() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className={cn(
-            'bg-card rounded-xl shadow-lg p-6 border border-border'
-          )}>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          <motion.div
+            className={cn(
+              'bg-card rounded-xl shadow-lg p-6 border border-border',
+              'transition-shadow duration-200 hover:shadow-xl'
+            )}
+            variants={cardVariants}
+          >
             <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
               <FaLock />
               加密
@@ -99,11 +121,15 @@ export default function RustWasmEncryptDemo() {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
 
-          <div className={cn(
-            'bg-card rounded-xl shadow-lg p-6 border border-border'
-          )}>
+          <motion.div
+            className={cn(
+              'bg-card rounded-xl shadow-lg p-6 border border-border',
+              'transition-shadow duration-200 hover:shadow-xl'
+            )}
+            variants={cardVariants}
+          >
             <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
               <FaLockOpen />
               解密
@@ -149,8 +175,8 @@ export default function RustWasmEncryptDemo() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

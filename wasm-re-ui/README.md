@@ -13,4 +13,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## TODO
 
-1. 两个有逆向题的，新增一个用户输入答案，我们告诉用户是否正确的代码。
+1. 导航栏、切换主题
+2. 和tpm一样，我们可以引入搜索能力、题目成就系统、仪表盘

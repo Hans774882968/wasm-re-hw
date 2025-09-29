@@ -2,6 +2,88 @@ import { Shield, Code, Key, HashIcon } from 'lucide-react';
 import { IntroCard } from './IntroCard';
 import FuturePlanCard from './FuturePlanCard';
 import { FaFile } from 'react-icons/fa';
+import { motion } from 'motion/react';
+
+const introCards = [
+  {
+    icon: <Key className="text-primary h-5 w-5" />,
+    title: 'Rust WASM 异或加密',
+    description: '使用 Rust 编译的 WASM 模块实现简单的异或加密算法。这种加密方式适合用于简单的数据混淆，但不适合高安全性场景。',
+    tags: ['Rust', 'WASM', '异或加密'],
+    to: '/xor-encrypt',
+  },
+  {
+    icon: <Shield className="text-primary h-5 w-5" />,
+    title: 'Rust AES-CBC 加密',
+    description: '使用 Rust 编译的 WASM 模块实现 AES-CBC 加密算法。这是一种对称加密算法，广泛用于数据加密和保护。',
+    tags: ['Rust', 'WASM', 'AES-CBC'],
+    to: '/aes-cbc',
+  },
+  {
+    icon: <HashIcon className="text-primary h-5 w-5" />,
+    title: 'Rust SHA256 / 512 演示',
+    description: '使用 Rust 编译的 WASM 模块实现高速安全的 SHA256 和 SHA512 哈希计算，支持加盐增强安全性。适用于密码处理、数据指纹等场景。',
+    tags: ['Rust', 'WASM', 'SHA256', 'SHA512', '加盐哈希'],
+    problemTags: ['逆向题', '简单'],
+    to: '/sha-demo',
+  },
+  {
+    icon: <FaFile className="text-primary h-5 w-5" />,
+    title: 'Rust 文件 SHA 哈希演示',
+    description: '《Rust SHA256 / 512 演示》的扩展。支持任意文件（文本/二进制）的 SHA256 / 512 哈希计算。适用于文件完整性校验、数字取证等场景。',
+    tags: ['Rust', 'WASM', '文件哈希', 'SHA256', 'SHA512', '加盐哈希'],
+    problemTags: ['逆向题', '简单'],
+    to: '/file-sha-hash-demo',
+  },
+  {
+    icon: <Key className="text-primary h-5 w-5" />,
+    title: 'Rust Base64 自定义码表',
+    description: '使用 Rust 编译的 WASM 模块实现自定义码表的 Base64 编解码。支持固定码表与动态码表。',
+    tags: ['Rust', 'WASM', 'Base64'],
+    problemTags: ['逆向题', '简单'],
+    to: '/base64-custom-alphabet',
+  },
+];
+
+const futurePlanCards = [
+  {
+    icon: <HashIcon className="h-5 w-5 text-primary" />,
+    title: 'SHA 哈希',
+    description: '使用 Rust、Go、C++、Python 等语言实现 SHA-256 / 512 哈希算法。',
+  },
+  {
+    icon: <Code className="h-5 w-5 text-primary" />,
+    title: '多语言 WASM',
+    description: '引入 Rust、Go、C++、Python 等语言编译的 WASM 模块。',
+  },
+  {
+    icon: <Shield className="h-5 w-5 text-primary" />,
+    title: '前端逆向靶场',
+    description: '模拟付费软件验证场景，提供专业的前端逆向练习环境。',
+  },
+  {
+    icon: <Shield className="h-5 w-5 text-primary" />,
+    title: '可插拔加密流程',
+    description: '利用 WASM 实现多语言串联的加密流程，并提供后台管理页面方便地让加密流程具备可插拔性。',
+  },
+  {
+    icon: <Shield className="h-5 w-5 text-primary" />,
+    title: '复现 HCTF 加密文件流程',
+    description: (
+      <>
+        这个灵感来自于作者的个人项目
+        <a
+          href="https://github.com/Hans774882968/file-encrypt  "
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          file-encrypt
+        </a>
+        ，宣传一下~
+      </>
+    ),
+  },
+];
 
 export default function Home() {
   return (
@@ -15,97 +97,44 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <IntroCard
-            icon={<Key className="text-primary h-5 w-5" />}
-            title="Rust WASM 异或加密"
-            description="使用 Rust 编译的 WASM 模块实现简单的异或加密算法。这种加密方式适合用于简单的数据混淆，但不适合高安全性场景。"
-            tags={['Rust', 'WASM', '异或加密']}
-            to="/xor-encrypt"
-          />
-
-          <IntroCard
-            icon={<Shield className="text-primary h-5 w-5" />}
-            title="Rust AES-CBC 加密"
-            description="使用 Rust 编译的 WASM 模块实现 AES-CBC 加密算法。这是一种对称加密算法，广泛用于数据加密和保护。"
-            tags={['Rust', 'WASM', 'AES-CBC']}
-            to="/aes-cbc"
-          />
-
-          <IntroCard
-            icon={<HashIcon className="text-primary h-5 w-5" />}
-            title="Rust SHA256 / 512 演示"
-            description="使用 Rust 编译的 WASM 模块实现高速安全的 SHA256 和 SHA512 哈希计算，支持加盐增强安全性。适用于密码处理、数据指纹等场景。"
-            tags={['Rust', 'WASM', 'SHA256', 'SHA512', '加盐哈希']}
-            problemTags={['逆向题', '简单']}
-            to="/sha-demo"
-          />
-
-          <IntroCard
-            icon={<FaFile className="text-primary h-5 w-5" />}
-            title="Rust 文件 SHA 哈希演示"
-            description="《Rust SHA256 / 512 演示》的扩展。支持任意文件（文本/二进制）的 SHA256 / 512 哈希计算。适用于文件完整性校验、数字取证等场景。"
-            tags={['Rust', 'WASM', '文件哈希', 'SHA256', 'SHA512', '加盐哈希']}
-            problemTags={['逆向题', '简单']}
-            to="/file-sha-hash-demo"
-          />
-
-          <IntroCard
-            icon={<Key className="text-primary h-5 w-5" />}
-            title="Rust Base64 自定义码表"
-            description="使用 Rust 编译的 WASM 模块实现自定义码表的 Base64 编解码。支持固定码表与动态码表。"
-            tags={['Rust', 'WASM', 'Base64']}
-            problemTags={['逆向题', '简单']}
-            to="/base64-custom-alphabet"
-          />
-        </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {introCards.map((card, index) => (
+            <IntroCard key={index} {...card} />
+          ))}
+        </motion.div>
 
         {/* 未来计划部分 */}
         <div>
           <h2 className="text-2xl font-bold mb-4 text-center">未来计划</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <FuturePlanCard
-              icon={<HashIcon className="h-5 w-5 text-primary" />}
-              title="SHA 哈希"
-              description="使用 Rust、Go、C++、Python 等语言实现 SHA-256 / 512 哈希算法。"
-            />
-
-            <FuturePlanCard
-              icon={<Code className="h-5 w-5 text-primary" />}
-              title="多语言 WASM"
-              description="引入 Rust、Go、C++、Python 等语言编译的 WASM 模块。"
-            />
-
-            <FuturePlanCard
-              icon={<Shield className="h-5 w-5 text-primary" />}
-              title="前端逆向靶场"
-              description="模拟付费软件验证场景，提供专业的前端逆向练习环境。"
-            />
-
-            <FuturePlanCard
-              icon={<Shield className="h-5 w-5 text-primary" />}
-              title="可插拔加密流程"
-              description="利用 WASM 实现多语言串联的加密流程，并提供后台管理页面方便地让加密流程具备可插拔性。"
-            />
-
-            <FuturePlanCard
-              icon={<Shield className="h-5 w-5 text-primary" />}
-              title="复现 HCTF 加密文件流程"
-              description={
-                <>
-                  这个灵感来自于作者的个人项目
-                  <a
-                    href="https://github.com/Hans774882968/file-encrypt"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    file-encrypt
-                  </a>
-                  ，宣传一下~
-                </>
-              }
-            />
-          </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.2,
+                },
+              },
+            }}
+          >
+            {futurePlanCards.map((card, index) => (
+              <FuturePlanCard key={index} {...card} />
+            ))}
+          </motion.div>
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 302.69 157.03">
-  <defs>
-    <style>.cls-2{fill:#654ff0}</style>
-  </defs>
-  <g id="Layer_2" data-name="Layer 2">
-    <g id="Notch_-_Purple" data-name="Notch - Purple">
-      <g id="icon">
-        <path d="M163.55 0v.58a12.34 12.34 0 0 1-24.68 0V0H97.43v107.62h107.62V0Zm-14.76 96.1-5.24-25.93h-.09l-5.67 25.93h-7.22L122.39 58h7.13l4.88 25.93h.09L140.37 58h6.67l5.28 26.25h.09L157.98 58h7l-9.09 38.1Zm39.26 0-2.43-8.48h-12.83l-1.87 8.48h-7.13l9.22-38.1h11.25l11.21 38.1Z" class="cls-2" />
-        <path d="m177.3 67.39-3.11 13.98h9.68l-3.57-13.98z" class="cls-2" />
+<svg width="108" height="108" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <title>Layer 1</title>
+    <g data-name="Layer 2" id="Layer_2">
+      <g data-name="Notch - Purple" id="Notch_-_Purple">
+        <g id="icon">
+          <path id="svg_1" fill="#e6067a" class="cls-2" d="m66.12,0l0,0.58a12.34,12.34 0 0 1 -24.68,0l0,-0.58l-41.44,0l0,107.62l107.62,0l0,-107.62l-41.5,0zm-14.76,96.1l-5.24,-25.93l-0.09,0l-5.67,25.93l-7.22,0l-8.18,-38.1l7.13,0l4.88,25.93l0.09,0l5.88,-25.93l6.67,0l5.28,26.25l0.09,0l5.57,-26.25l7,0l-9.09,38.1l-7.1,0zm39.26,0l-2.43,-8.48l-12.83,0l-1.87,8.48l-7.13,0l9.22,-38.1l11.25,0l11.21,38.1l-7.42,0z" />
+          <path id="svg_2" fill="#e6067a" class="cls-2" d="m79.87,67.39l-3.11,13.98l9.68,0l-3.57,-13.98l-3,0z" />
+        </g>
       </g>
     </g>
   </g>

@@ -18,6 +18,7 @@ import {
 } from '@/wasm/rust_wasm';
 import { copyToClipboard } from '@/lib/utils';
 import AnswerCardForCB from './AnswerCardForCB';
+import { motion } from 'motion/react';
 
 function Base64Section({ title, description, encodeFn, decodeFn, hasAlphabet = false }) {
   // 左侧（编码侧）
@@ -190,7 +191,19 @@ function Base64Section({ title, description, encodeFn, decodeFn, hasAlphabet = f
 
 export default function Base64CustomAlphabetDemo() {
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-4 md:space-y-8">
+    <motion.div
+      className="max-w-6xl mx-auto p-4 md:p-8 space-y-4 md:space-y-8"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.2,
+          },
+        },
+      }}
+    >
       <Base64Section
         title="固定码表（预设）"
         description="使用 Rust WASM 模块内置的自定义 Base64 码表进行编解码"
@@ -208,6 +221,6 @@ export default function Base64CustomAlphabetDemo() {
       />
 
       <AnswerCardForCB />
-    </div>
+    </motion.div>
   );
 }

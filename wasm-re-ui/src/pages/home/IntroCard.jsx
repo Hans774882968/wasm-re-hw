@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
 import { Tag } from '@/components/Tag';
 import { difficultyColors } from '@/common/consts';
+import { motion } from 'motion/react';
 
 export function IntroCard({
   className,
@@ -14,12 +15,18 @@ export function IntroCard({
   to,
 }) {
   return (
-    <div
+    <motion.div
       className={cn(
         'bg-card rounded-xl shadow-lg border border-border overflow-hidden',
-        'transition-all duration-300 hover:shadow-xl hover:-translate-y-1',
+        'transition-shadow duration-200 hover:shadow-xl',
         className
       )}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+      }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
     >
       <div className="p-6">
         <div className="flex items-center gap-3 mb-4">
@@ -66,6 +73,6 @@ export function IntroCard({
           <FaArrowRight className="text-xs group-hover:scale-x-150 group-hover:translate-x-0.75 transition-transform duration-600" />
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,19 +1,27 @@
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import { motion } from 'motion/react';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+};
 
 function Card({
   className,
   ...props
 }) {
   return (
-    <div
+    <motion.div
       data-slot="card"
       className={cn(
         'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'transition-shadow duration-200 hover:shadow-xl',
         className
       )}
-      {...props} />
+      variants={cardVariants}
+      {...props}
+    />
   );
 }
 
