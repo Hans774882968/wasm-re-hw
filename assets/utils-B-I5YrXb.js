@@ -1,0 +1,1 @@
+function r(n){const t=n.toString();return t.includes("Invalid Base64")?"密文格式不正确":t.includes("Invalid UTF-8")?"不是合法的UTF-8字符串":"解密时出错"}function e(n){return new TextEncoder().encode(n)}export{r as g,e as t};
