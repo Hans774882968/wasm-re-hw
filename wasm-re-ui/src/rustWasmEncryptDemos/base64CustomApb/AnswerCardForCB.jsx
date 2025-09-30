@@ -106,14 +106,11 @@ export default function AnswerCardForCB({ onCorrectAnswer }) {
             <FaQuestionCircle />
             逆向挑战
           </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            通过前端逆向，找出《固定码表（预设）》所使用的码表。
+          </p>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <p>
-              通过前端逆向，找出《固定码表（预设）》所使用的码表。
-            </p>
-          </div>
-
+        <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="base64-alphabet">Base64 码表</Label>

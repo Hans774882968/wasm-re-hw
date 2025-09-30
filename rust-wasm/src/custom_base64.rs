@@ -52,7 +52,7 @@ fn validate_input(input: &str) -> Result<(), CustomBase64Error> {
 #[wasm_bindgen]
 pub fn encode_custom_base64(input: &str) -> Result<String, CustomBase64Error> {
     validate_input(input)?;
-    let encoded = CUSTOM_ENGINE.encode(input.as_bytes());
+    let encoded = CUSTOM_ENGINE.encode(input.trim().as_bytes());
     Ok(encoded)
 }
 
@@ -64,7 +64,7 @@ pub fn decode_custom_base64(encoded: &str) -> Result<String, CustomBase64Error> 
     }
 
     let decoded_bytes = CUSTOM_ENGINE
-        .decode(encoded)
+        .decode(encoded.trim())
         .map_err(CustomBase64Error::Base64Decode)?;
 
     let decoded_str =
@@ -86,8 +86,8 @@ pub fn encode_base64_with_alphabet(
         return Err(CustomBase64Error::InvalidAlphabet("empty alphabet".into()).into());
     }
 
-    let engine = build_engine_from_alphabet(alphabet)?;
-    let encoded = engine.encode(input.as_bytes());
+    let engine = build_engine_from_alphabet(alphabet.trim())?;
+    let encoded = engine.encode(input.trim().as_bytes());
     Ok(encoded)
 }
 
@@ -104,9 +104,9 @@ pub fn decode_base64_with_alphabet(
         return Err(CustomBase64Error::InvalidAlphabet("empty alphabet".into()).into());
     }
 
-    let engine = build_engine_from_alphabet(alphabet)?;
+    let engine = build_engine_from_alphabet(alphabet.trim())?;
     let decoded_bytes = engine
-        .decode(encoded)
+        .decode(encoded.trim())
         .map_err(CustomBase64Error::Base64Decode)?;
     let decoded_str =
         String::from_utf8(decoded_bytes).map_err(|_| CustomBase64Error::InvalidUtf8)?;

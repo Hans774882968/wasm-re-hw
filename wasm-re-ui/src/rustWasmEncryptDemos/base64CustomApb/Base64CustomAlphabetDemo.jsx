@@ -8,7 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { FaLock, FaUnlock, FaCopy } from 'react-icons/fa';
+import {
+  FaLock,
+  FaUnlock,
+  FaCopy,
+  FaTable,
+} from 'react-icons/fa';
 import { toast } from 'sonner';
 import {
   encode_custom_base64,
@@ -64,7 +69,10 @@ function Base64Section({ title, description, encodeFn, decodeFn, hasAlphabet = f
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <FaTable className="w-6 h-6" />
+          {title}
+        </CardTitle>
         <p className="text-sm text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent>

@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import {
   FaCopy,
   FaFile,
+  FaFileAlt,
   FaLock,
   FaShieldAlt,
   FaSpinner,
@@ -210,8 +211,8 @@ export default function FileShaDemo() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
-              <FaUpload />
-              上传文件
+              <FaFileAlt />
+              SHA 文件哈希演示
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">

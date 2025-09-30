@@ -145,12 +145,11 @@ export default function AnswerCard({
             <FaQuestionCircle />
             逆向挑战
           </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            通过逆向，找到“SHA256+默认盐”和“SHA512+默认盐”中默认盐的值。
+          </p>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <p>通过逆向，找到“SHA256+默认盐”和“SHA512+默认盐”中默认盐的值。</p>
-          </div>
-
+        <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="sha256-salt">SHA256 默认盐值</Label>

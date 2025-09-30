@@ -66,7 +66,7 @@ export function IntroCard({
           className={cn(
             'group inline-flex items-center justify-center gap-2 w-full',
             'bg-primary text-primary-foreground py-2 px-4 rounded-md',
-            'transition-colors duration-300 hover:bg-primary/90'
+            'transition-colors duration-300 hover:bg-primary/85'
           )}
         >
           查看
