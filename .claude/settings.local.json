@@ -8,7 +8,8 @@
       "Bash(bun run build)",
       "Bash(mkdir:*)",
       "Bash(.specify/scripts/powershell/check-prerequisites.ps1:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(bun lint:*)"
     ],
     "deny": [],
     "ask": []

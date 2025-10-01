@@ -67,7 +67,7 @@ export const futurePlanCardsProps = [
       <>
         这个灵感来自于作者的个人项目
         <a
-          href="https://github.com/Hans774882968/file-encrypt  "
+          href="https://github.com/Hans774882968/file-encrypt"
           target="_blank"
           rel="noopener noreferrer"
         >

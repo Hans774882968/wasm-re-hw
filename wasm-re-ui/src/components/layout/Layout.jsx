@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import Breadcrumbs from '../BreadCrumbs';
 import { Separator } from '../ui/separator';
+import ScrollToTop from '../ScrollToTop';
 
 export default function Layout({ children }) {
   const { pathname } = useLocation();
@@ -17,6 +18,7 @@ export default function Layout({ children }) {
         )
       }
       {children}
+      <ScrollToTop />
     </div>
   );
 }

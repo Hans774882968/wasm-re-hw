@@ -204,6 +204,32 @@ body {
   }
 }
 
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 2s infinite;
+}
+
 *::-webkit-scrollbar {
   @apply flex touch-none p-px transition-colors select-none h-full w-1.5 border-l border-l-transparent;
 }
